@@ -1,0 +1,9 @@
+{
+  "name": "@liveboard/shared",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "devDependencies": {
+    "tsx": "^4.23.15"
+  }
+}

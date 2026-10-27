@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LiveBoard</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%236d5bd0'/%3E%3Cpath d='M8 21c3-9 6 3 9-6s5 0 7-5' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E" />
+    <script>
+      // Choose the theme before the first paint so the page never flashes the wrong one.
+      document.documentElement.dataset.theme =
+        localStorage.getItem("lb.theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    </script>
+  </head>
+  <body>
+    <main id="landing" hidden>
+      <canvas id="pad" aria-label="A scribble pad: draw anywhere"></canvas>
+      <button id="theme-landing" class="chip icon-btn" title="Switch light and dark" aria-label="Switch light and dark"></button>
+
+      <section class="hero">
+        <h1 class="wordmark">
+          LiveBoard
+          <svg viewBox="0 0 330 18" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" aria-hidden="true">
+            <path d="M3 11C40 3 70 15 108 8s70 6 112 0 70 5 107 1" />
+          </svg>
+        </h1>
+        <p class="lead">Sketch ideas with other people on one shared canvas. Every stroke shows up for everyone the moment it's drawn.</p>
+
+        <div class="hero-actions">
+          <div class="cta">
+            <button id="landing-create" class="big">Start a board</button>
+            <span class="annotation" aria-hidden="true">
+              <svg width="46" height="44" viewBox="0 0 46 44" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 40C4 28 12 14 30 8M30 8l-9-3M30 8l-4 8"/></svg>
+              start here
+            </span>
+          </div>
+          <form id="landing-form" class="join">
+            <input id="landing-join" placeholder="Have a link? Paste it" aria-label="Board link or name" required />
+            <button type="submit">Join</button>
+          </form>
+        </div>
+
+        <details class="more">
+          <summary>Password, account, your boards</summary>
+          <div class="more-body">
+            <label for="landing-password" class="sr">Password for a new board</label>
+            <input id="landing-password" type="password" placeholder="Password for a new board (optional)" autocomplete="new-password" />
+            <button id="landing-account" class="link" type="button">Sign in</button>
+            <ul id="landing-boards"></ul>
+          </div>
+        </details>
+      </section>
+
+      <p id="pad-hint">scribble anywhere</p>
+    </main>
+
+    <div id="app" hidden>
+      <canvas id="board"></canvas>
+
+      <header id="topbar">
+        <div class="cluster">
+          <button id="menu-btn" class="chip icon-btn" title="Menu" aria-label="Menu" aria-haspopup="true"></button>
+          <div id="board-title" class="chip" title="Board name">
+            <span id="status-dot" class="dot offline"></span>
+            <span id="board-name"></span>
+            <span id="status-text"></span>
+          </div>
+        </div>
+        <div class="cluster">
+          <div id="people" class="people" aria-label="People on this board"></div>
+          <button id="react-btn" class="chip icon-btn" title="Send a reaction" aria-label="Send a reaction"></button>
+          <button id="share-btn" class="chip primary">Share</button>
+        </div>
+      </header>
+
+      <div id="menu" class="popover" hidden role="menu"></div>
+      <div id="reactions-pop" class="popover" hidden></div>
+
+      <nav id="tray" aria-label="Tools"></nav>
+
+      <div id="corner-left" class="corner">
+        <div class="chip zoom">
+          <button id="zoom-out" title="Zoom out" aria-label="Zoom out"></button>
+          <button id="zoom-level" title="Reset zoom to 100%">100%</button>
+          <button id="zoom-in" title="Zoom in" aria-label="Zoom in"></button>
+        </div>
+        <div class="chip history">
+          <button id="undo-btn" title="Undo (Ctrl+Z)" aria-label="Undo"></button>
+          <button id="redo-btn" title="Redo (Ctrl+Y)" aria-label="Redo"></button>
+        </div>
+      </div>
+      <div id="corner-right" class="corner">
+        <button id="help-btn" class="chip icon-btn" title="Keyboard shortcuts" aria-label="Keyboard shortcuts"></button>
+      </div>
+
+      <div id="hint" hidden></div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

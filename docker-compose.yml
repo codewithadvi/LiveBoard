@@ -1,0 +1,23 @@
+# Optional services for trying the Postgres and Redis modes in development.
+# LiveBoard itself needs neither: with no settings it uses SQLite and one server.
+#   docker compose up -d
+#   DATABASE_URL=postgres://postgres:liveboard@localhost:5433/liveboard \
+#   REDIS_URL=redis://localhost:6380 npm run dev
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: liveboard
+      POSTGRES_DB: liveboard
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - liveboard-pg:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "127.0.0.1:6380:6379"
+
+volumes:
+  liveboard-pg:
